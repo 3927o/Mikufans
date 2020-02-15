@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href={{url_for('static',filename="css/movie_list.css")}}>
+    <!-- <link rel="stylesheet" href={{url_for('static',filename="css/index.css")}} > -->
+    <script src={{url_for('static',filename="js/test.js")}}></script>
+    <title>movie list</title>
+</head>
+<body>
+    <div id="header">
+        {% if 'uid' not in session %}
+        <link rel="stylesheet" href={{url_for('static',filename="css/top.css")}}>
+        <div id="top">
+            <div class="icon"><a href={{url_for('index')}}><strong>Mikufans</strong></a></div>
+            <div class="user">
+                <a href={{url_for('login')}}>login</a>
+            </div>
+            <div class="search">
+                <form action="search" method="GET"><input type="text" name="keywords" placeholder="233333"><input type="submit" name="submit"></form>
+            </div>
+        </div>
+        {% else %}
+        <link rel="stylesheet" href={{url_for('static',filename="css/top_logedin.css")}}>
+        <div id="top">
+            <div class="icon"><a href={{url_for('index')}}><strong>Mikufans</strong></a></div>
+            <div class="user">
+                <a href={{url_for('upload')}}>上传</a>
+                <a href={{url_for('logout')}}>logout</a>
+                <a href={{url_for('space',uid=session['uid'])}}>{{session['uname']}}</a>
+                <a href={{url_for('space',uid=session['uid'])}} style="margin: 0px;"><img src={{url_for('static',filename="movies/cover/1.jpg")}}></a>
+            </div>
+            <div class="search">
+                <form action="search" method="GET"><input type="text" name="keywords" placeholder="233333"><input type="submit" name="submit"></form>
+            </div>
+        </div>
+        {% endif %}
+        <div id="banner"><img src={{url_for('static',filename="banner.jpg")}}></div>
+        <div id="index" name="index">
+            <div class="index"><a href={{url_for('classes',Class="animation")}} target="_blank">动画</a></div>
+            <div class="index"><a href={{url_for('classes',Class="music")}} target="_blank">音乐</a></div>
+            <div class="index"><a href={{url_for('classes',Class="game")}} target="_blank">游戏</a></div>
+            <div class="index"><a href={{url_for('classes',Class="life")}} target="_blank">生活</a></div>
+            <div class="index"><a href={{url_for('classes',Class="fashion")}} target="_blank">时尚</a></div>
+            <div class="index"><a href={{url_for('classes',Class="kichiku")}} target="_blank">鬼畜</a></div>
+            <div class="index"><a href={{url_for('classes',Class="entertain")}} target="_blank">娱乐</a></div>
+            <div class="index"><a href={{url_for('classes',Class="dance")}} target="_blank">舞蹈</a></div>
+            <div class="index"><a href={{url_for('classes',Class="cinephile")}} target="_blank">影视</a></div>
+        </div>
+    </div>
+    <div id="list_body">
+        <div id="right">
+            <div class="ads">广</div>
+            <div class="ads">告</div>
+            <div class="ads">位</div>
+            <div class="ads">·</div>
+            <div class="ads">迫</div>
+            <div class="ads">真</div>
+        </div>
+        <div id="left">
+            {% if pages == 1 %}
+            {% for i in movies %}
+            <div class="card_movies" id="movie_{{i[0]}}">
+                <div class="movie_card_left"><a href={{url_for('movie',av=i[0])}} target="_blank"><img src={{url_for('static',filename="movies/cover/{}.jpg".format(i[0]))}}></a></div>
+                <div class="movie_card_right">
+                    <div class="card_title"><a href={{url_for('movie',av=i[0])}}><strong>{{i[9]}}</strong></a></div>
+                    <div class="card_info">
+                        <div>up:{{i[1]}}</div>
+                        <div>
+                            <span>播放：{{i[4]}}</span>
+                            <span>弹幕：{{i[13]}}</span>
+                            <span>点赞：{{i[5]}}</span>
+                            <span>收藏：{{i[6]}}</span>
+                            {% if 'uid' in session and session['uid']==1 %}
+                            <a onclick="del({{i[0]}},'sp')">删除</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card_intro">{{i[15]}}</div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            {% for i in movies[0:5] %}
+            <div class="card_movies" id="movie_{{i[0]}}">
+                <div class="movie_card_left"><a href={{url_for('movie',av=i[0])}} target="_blank"><img src={{url_for('static',filename="movies/cover/{}.jpg".format(i[0]))}}></a></div>
+                <div class="movie_card_right">
+                    <div class="card_title"><a href={{url_for('movie',av=i[0])}}><strong>{{i[9]}}</strong></a></div>
+                    <div class="card_info">
+                        <div>up:{{i[1]}}</div>
+                        <div>
+                            <span>播放：{{i[4]}}</span>
+                            <span>弹幕：{{i[13]}}</span>
+                            <span>点赞：{{i[5]}}</span>
+                            <span>收藏：{{i[6]}}</span>
+                            {% if 'uid' in session and session['uid']==1 %}
+                            <a onclick="del({{i[0]}},'sp')">删除</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card_intro">{{i[15]}}</div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div id="next_p"">
+            {% for i in range(1,pages+1) %}
+            <a href="#index"><span onclick="change_page_class({{i}},'{{Class}}')">{{i}}</span></a>
+            {% endfor %}
+        </div>
+        
+    </div>
+    <div id="footer"></div>
+</body>
+</html>

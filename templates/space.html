@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href={{url_for('static',filename="css/user.css")}}>
+    <script src={{url_for('static',filename="js/test.js")}}></script>
+    <title>个人资料</title>
+</head>
+<body>
+    <link rel="stylesheet" href={{url_for('static',filename="css/top_logedin.css")}}>
+        <div id="top">
+            <div class="icon"><a href={{url_for('index')}}><strong>Mikufans</strong></a></div>
+            <div class="user">
+                <a href={{url_for('upload')}}>上传</a>
+                <a href={{url_for('logout')}}>logout</a>
+                <a href={{url_for('space',uid=session['uid'])}}>{{session['uname']}}</a>
+                <a href={{url_for('space',uid=session['uid'])}} style="margin: 0px;"><img src={{url_for('static',filename="movies/cover/1.jpg")}}></a>
+            </div>
+            <div class="search">
+                <form action="search" method="GET"><input type="text" name="keywords" placeholder="233333"><input type="submit" name="submit"></form>
+            </div>
+        </div>
+    <div id="cover"><img src={{url_for('static',filename="user/space_cover/{}.jpg".format(info[4]))}}></div>
+    <div id="index">
+        <div class="index"><a href={{url_for('classes',Class="animation")}} target="_blank">动画</a></div>
+        <div class="index"><a href={{url_for('classes',Class="music")}} target="_blank">音乐</a></div>
+        <div class="index"><a href={{url_for('classes',Class="game")}} target="_blank">游戏</a></div>
+        <div class="index"><a href={{url_for('classes',Class="life")}} target="_blank">生活</a></div>
+        <div class="index"><a href={{url_for('classes',Class="fashion")}} target="_blank">时尚</a></div>
+        <div class="index"><a href={{url_for('classes',Class="kichiku")}} target="_blank">鬼畜</a></div>
+        <div class="index"><a href={{url_for('classes',Class="entertain")}} target="_blank">娱乐</a></div>
+        <div class="index"><a href={{url_for('classes',Class="dance")}} target="_blank">舞蹈</a></div>
+        <div class="index"><a href={{url_for('classes',Class="cinephile")}} target="_blank">影视</a></div>
+    </div>
+    <div id="info_base">
+        <div class="header">
+            <div class="portrait"><img  id="img" ></div>
+            <script>
+                var time=new Date()
+document.getElementById("img").src="{{url_for('static',filename="user/portrait/{}.jpg".format(info[4]))}}?v="+time;
+
+            </script><!--
+            --><div class="name">
+                <div class="name_left">
+                    <div class="username">用户名:</div>
+                    <div class="uid">uid:</div>
+                </div>
+                <div class="name_right">
+                    <div class="username">{{info[0]}}</div>
+                    <div class="uid">{{info[4]}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="info_other">
+            <div class="sex">sex:<small>{{info[5]}}</small></div>
+            <div class="tel">tel:<small>{{info[2]}}</small></div>
+            <div class="email">email:<small>{{info[3]}}</small></div>
+            <div class="sign">sign:</div>
+            <div class="sign">{{info[6]}}</div>
+            <button onclick="move()">更改信息</button>
+        </div>
+    </div>
+    <div id="container_change">
+        <div id="change">change(只填需要改变的)
+            <form method="POST" enctype="multipart/form-data">
+                用户名：<input type="text" name="uname" value="空"><br/>
+                签名：<input type="text" name="sign" value="空"><br/>
+                图像：<input type="file" name="portrait" accept=".jpg" formenctype="multipart/form-data"><br/>
+                性别：<select name="sex">
+                <option value="空">空</option>
+                <option value="male">男</option>
+                <option value="female">女</option>
+            </select><br/>
+                电话：<input type="tel" name="tel"  value="空"><br/>
+                邮箱：<input type="text" name="email"  value="空"><br/>
+                原密码：<input type="password" name="passw_identify"  value="空"><br/>
+                更改后密码：<input type="password" name="passw" value="空"><br/>
+                <input type="submit" value="submit" name="submit">
+                <button onclick="cancel()">返回</button>
+            </form>
+        </div>
+    </div>
+    <div id="info_movie">
+        <div class="made">
+            <div class="head">我创作的</div>
+            <div class="movies">
+            {% for i in movies_create %}
+                <div class="movie" id="movie_{{i[0]}}">
+                    <div class="frame"><a href={{url_for('movie',av=i[0])}} target="_blank"><img src={{url_for('static',filename="movies/cover/{}.jpg".format(i[0]))}}></a></div>
+                    <div class="info">
+                        <div class="title">{{i[9]}}</div>
+                        <div class="info_create">
+                            <span>播放：</span><span>{{i[4]}}</span>
+                            <span>收藏：</span><span>{{i[6]}}</span>
+                            <span>弹幕：</span><span>2{{i[13]}}</span>
+                            <a onclick="del({{i[0]}},'sp')">删除</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+        <div class="collect">
+            <div class="head">我收藏的</div>
+            <div class="movies">
+            {% for i in movies_collect %}
+                <div class="movie">
+                    <div class="frame"><a href={{url_for('movie',av=i[0])}} target="_blank"><img src={{url_for('static',filename="movies/cover/{}.jpg".format(i[0]))}}></a></div>
+                    <div class="info">
+                        <div class="title">{{i[9]}}</div>
+                        <div class="up">{{i[1]}}</div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div id="comments">
+        <div class="head">我的评论：</div>
+        {% for i in comments %}
+        <div class="comment" id="comment_{{i[0]}}">
+            <div class="content">{{i[3]}}</div>
+            <div class="info_comment">视频：av{{i[1]}}  点赞：{{i[4]}}  日期：{{i[5]}}  <a onclick="del({{i[0]}},'pl')">删除</a></div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

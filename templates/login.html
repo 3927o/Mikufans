@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+</head>
+<body>
+    <div style="text-align: center;height: 100px;"><div>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul type="none">
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+<form action="login" method="post">
+    user name:<input type="text" name="uname"/><br/>
+    password:<input type="password" name="password"><br/>
+    <input type="submit" value="login"name="login"><a href="signin" style="padding:10px">注册</a>
+</form>
+</div></div>
+</body>
+</html>

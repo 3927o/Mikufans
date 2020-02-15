@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>upload</title>
+</head>
+<body>
+<form action="upload" method="post" ENCTYPE="multipart/form-data">
+    视频(.mp4 only)：<input type="file" name="movie" accept=".mp4"><br/>
+    封面(.jpg only)：<input type="file" name="cover" accept=".jpg"><br/>
+    标题：<input type="text" name="title" maxlength="80"><br/>
+    分区：<select name="classes">
+        <option value="game">游戏</option>
+        <option value="life">生活</option>
+        <option value="animation">动画</option>
+        <option value="fashion">时尚</option>
+        <option value="entertain">娱乐</option>
+        <option value="dance">舞蹈</option>
+        <option value="music">音乐</option>
+        <option value="kichiku">鬼畜</option>
+        <option value="cinephile">影视</option>
+    </select><br/>
+    简介：<input type="text" name="introduction" maxlength="250" id="introduction"><br/>
+    标签：<input type="text" name="tags" multiple>
+    <input type="submit" name="submit" value="submit"/>
+</form>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sign in</title>
+</head>
+<body>
+<!--错误消息提醒-->
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul type="none">
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+<form action="signin" method="post">
+    请输入用户名：<input type="text" name="uname"><br/>
+    请输入密码：<input type="password" name="password"><br/>
+    请再次输入密码：<input type="password" name="passw_verify"><br/>
+    <input type="radio" name="sex" value="male">男
+    <input type="radio" name="sex" value="female">女<br/>
+    <input type="submit" name="submit" value="注册">
+</form>
+</body>
+</html>
