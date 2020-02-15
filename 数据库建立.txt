@@ -1,0 +1,65 @@
+create database bilibili;
+
+| user  | CREATE TABLE `user` (
+  `name` varchar(10) DEFAULT NULL,
+  `password` varchar(30) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `mail` varchar(30) DEFAULT NULL,
+  `uid` int(11) NOT NULL,
+  `sex` varchar(10) DEFAULT NULL,
+  `sign` varchar(100) DEFAULT NULL,
+  `movies` int(11) DEFAULT NULL,
+  `comments` int(11) DEFAULT NULL,
+  `collection_movies` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 |
+
+| movies | CREATE TABLE `movies` (
+  `av_num` mediumint(9) NOT NULL,
+  `up_name` varchar(20) DEFAULT NULL,
+  `up_id` mediumint(9) DEFAULT NULL,
+  `url` varchar(200) DEFAULT NULL,
+  `play` int(11) DEFAULT NULL,
+  `likes` mediumint(9) DEFAULT NULL,
+  `collect` mediumint(9) DEFAULT NULL,
+  `share` mediumint(9) DEFAULT NULL,
+  `coins` mediumint(9) DEFAULT NULL,
+  `title` varchar(50) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `classes` varchar(10) DEFAULT NULL,
+  `danmaku` int(11) DEFAULT NULL,
+  `danmaku_num` int(11) DEFAULT NULL,
+  `cover` varchar(200) DEFAULT NULL,
+  `introduction` varchar(100) DEFAULT NULL,
+  `tags` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`av_num`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 |
+
+| comments | CREATE TABLE `comments` (
+  `rpid` varchar(15) NOT NULL,
+  `av_num` int(11) DEFAULT NULL,
+  `user_name` varchar(30) DEFAULT NULL,
+  `content` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `likes` mediumint(9) DEFAULT NULL,
+  `data` datetime DEFAULT NULL,
+  PRIMARY KEY (`rpid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
+
+| danmakus | CREATE TABLE `danmakus` (
+  `dmid` int(11) NOT NULL,
+  `id` varchar(30) DEFAULT NULL,
+  `text` varchar(50) DEFAULT NULL,
+  `color` bigint(20) DEFAULT NULL,
+  `time` float DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `author` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`dmid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
+
+| data  | CREATE TABLE `data` (
+  `name` varchar(20) NOT NULL,
+  `value` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 |
+
+insert into danmakus set dmid=0;
