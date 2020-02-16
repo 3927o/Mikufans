@@ -1,0 +1,83 @@
+body{
+    margin: auto;
+    background-color: white;
+}
+#footer{
+    height: 200px;
+    background-color: grey;
+}
+#list_body{
+    margin: 0px 45px 20px 45px;
+    background-color: tomato;
+}
+#right{
+    float: right;
+    width: 300px;
+    background-color: teal;
+}
+.movie{
+    margin-bottom: 20px;
+    height: 150px;
+    background-color: cornflowerblue;
+}
+#left{
+    margin-right: 300px;
+    background-color: brown;
+}
+.ads{
+    text-align: center;
+    font-size: 100px;
+}
+
+
+
+.card_movies{
+    height: 108px;
+    margin-bottom: 10px;
+}
+
+.movie_card_left{
+    float: left;
+    width: 198px;
+    height: 108px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-right: 5px;
+    background-color: rgb(240, 158, 158);
+}
+.movie_card_right{
+    float: left;
+    height: 108px;
+    display: inline-block;
+    background-color: rgb(61, 165, 235);
+}
+
+.card_title{
+    font-size: 28px;
+    height: 35px;
+}
+.card_info{
+    height: 25px;
+    font-size: 12px;
+    font-family: 'Times New Roman', Times, serif;
+    color: lightslategray;
+    padding: 5px 0px;
+}
+.card_intro{
+    word-wrap: break-word;
+    word-break: break-all;
+    font-size: 15px;
+    padding: 1px;
+    width: 650px;
+    height: 30px;
+}
+
+.card_info span{
+    float: left;
+    margin-right: 6px;
+}
+.movie_card_left img{
+    width: 198px;
+    height: 108px;
+    border-radius: 5px;
+}
