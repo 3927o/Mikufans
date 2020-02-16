@@ -1,0 +1,176 @@
+body{
+    margin: auto;
+    background-color: cornsilk;
+}
+
+#cover{
+    height: 200px;
+    background-color: darkcyan;
+}
+#cover img{
+    width: 100%;
+    height: 200px;
+}
+
+#container_change{
+    display: none;
+    margin-left: 40px;
+    margin-right: 40px;
+    height: 300px;
+    background-color: darkgreen;
+}
+#change{
+    padding: 30px 180px;
+}
+
+#info_base{
+    margin-left: 40px;
+    margin-right: 40px;
+    height: 300px;
+    background-color: burlywood;
+}
+.header{
+    display: inline-block;
+    float: left;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    width: 220px;
+    height: 260px;
+    margin-left: 40px;
+    background-color: blue;
+}
+.portrait{
+    height: 220px;
+    width: 220px;
+    background-color: coral;
+}
+.name{
+    width: 220px;
+    height: 40px;
+    background-color: cornflowerblue;
+}
+.name_left{
+    /* margin-left: 35px; */
+    width: 90px;
+}
+.name_left,.name_right{
+    /* width: 100px; */
+    display: inline-block
+}
+.name_left .username,.name_left .uid{
+    text-align: right;
+}
+.name_right .username,.name_right .uid{
+    text-align: left;
+}
+.username,.uid{
+    height: 20px;
+    text-align: center;
+}
+.info_other{
+    font-size: 19px;
+    float: left;
+    display: inline-block;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 500px;
+    height: 220px;
+    margin-left: 50px;
+    background-color: blueviolet;
+}
+
+#info_movie{
+    margin-top: 50px;
+    margin-left: 40px;
+    margin-right: 40px;
+    background-color: cornflowerblue;
+}
+.made{
+    background-color: khaki;
+}
+.collect{
+    margin-top: 30px;
+    background-color: lightsalmon;
+}
+.head{
+    height: 20px;
+}
+.movies{
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-around;
+    align-content: space-around; */
+}
+.movie{
+    flex-shrink: 0;
+    width: 198px;
+    height: 150px;
+    margin-right: 30px;
+}
+.frame{
+    width: 198px;
+    height: 108px;
+    background-color: palevioletred;
+}
+.info{
+    width: 198px;
+    height: 42px;
+    background-color: orangered;
+}
+.title,.up{
+    text-align: center;
+    height: 21px;
+}
+
+.portrait img{
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+}
+.frame img{
+    width: 198px;
+    height: 108px;
+    border-radius: 13px;
+}
+.sign{
+    word-wrap: break-word;
+    word-break: break-all;
+}
+input{
+    margin-bottom: 2px;
+    font-size: 18px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1px solid #c8cccf;
+    color: #6a6f77;
+}
+
+#comments{
+    margin: 5px 40px;
+    background-color: lightcoral;
+}
+.comment{
+    background-color: lightskyblue;
+}
+.content{
+    padding: 6px 180px 2px 6px;
+    padding-right: 180px;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.info_comment{
+    font-size: 10px;
+    font-family: 'Times New Roman', Times, serif;
+    color: lightslategray;
+    margin-top: 5px;
+    padding: 5px 0px;
+}
+
+.info_create{
+    text-align: center;
+    font-size: 12px;
+    font-family: 'Times New Roman', Times, serif;
+    color: lightslategray;
+    margin-top: 5px;
+    padding: 4px 0px;
+}

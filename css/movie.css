@@ -1,0 +1,88 @@
+#inner{
+    margin: 0px 45px 20px 45px;
+    background-color: crimson;
+}
+#footer{
+    height: 200px;
+    background-color: grey;
+}
+#right{
+    float: right;
+    width: 300px;
+    background-color: teal;
+}
+.ads{
+    text-align: center;
+    font-size: 100px;
+}
+
+#left{
+    margin-right: 300px;
+    background-color: rgb(243, 151, 208);
+}
+#video{
+    margin-bottom: 20px;
+    background-color: darkorange;
+}
+.title{
+    font-size: 40px;
+}
+.video{
+    width: 660px;
+    height: 360px;
+    background-color: black;
+}
+.introduction{
+    word-wrap: break-word;
+    word-break: break-all;
+}
+#comment{
+    background-color: darkcyan;
+}
+.comment{
+    margin-bottom: 8px;
+    background-color: burlywood;
+}
+
+.date span{
+    margin-right: 10px;
+}
+.dplayer{
+    width: 660px;
+    height: 360px;
+}
+
+.comment_list{
+    margin-top: 13px;
+}
+
+textarea{
+    width: 720px;
+    height: 150px;
+    resize: none;
+    border-radius: 20px;
+    padding: 10px;
+    font-size: 18px;
+}
+.send_comment input{
+    width: 80px;
+    height: 30px;
+    font-size: 15px;
+}
+
+.send_comment input:hover{
+    color: black;
+    background-color: gray;
+}
+
+.content{
+    word-wrap: break-word;
+    word-break: break-all;
+    font-size: 15px;
+}
+.op{
+    font-size: 12px;
+    font-family: 'Times New Roman', Times, serif;
+    color: lightslategray;
+    padding: 5px 0px;
+}
