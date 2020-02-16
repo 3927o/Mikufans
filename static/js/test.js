@@ -1,10 +1,5 @@
-// document.getElementsByClassName("index").onmouseover=function(){
-//     this.style.color="lightgray"
-// }
-// function fun(obj){
-//     obj.style.background-color="red";
-// }
 
+//个人空间修改信息，花里胡哨没啥用
 function move(){
     document.getElementById("container_change").style.display="block"
     document.getElementById("container_change").style.transform="translate(0px,-300px)"
@@ -15,7 +10,7 @@ function cancel(){
     document.getElementById("info_movie").style.transform="translate(0px,300px)"
 }
 
-
+//更新点赞
 function update_like(rpid){
     var xhr
     var formData = new FormData()
@@ -46,6 +41,7 @@ function update_like(rpid){
     xhr.send(formData);
 }
 
+//更新点赞
 function update_like_movie(av){
     var xhr
     var formData = new FormData()
@@ -76,6 +72,7 @@ function update_like_movie(av){
     xhr.send(formData);
 }
 
+//更新收藏
 function update_collection(av){
     var xhr
     var formData = new FormData()
@@ -106,6 +103,7 @@ function update_collection(av){
     xhr.send(formData);
 }
 
+//换页
 function change_page(page,movie){
     var xhr
     var formData = new FormData()
@@ -139,6 +137,7 @@ function change_page(page,movie){
     xhr.send(formData);
 }
 
+//换页
 function change_page_class(page,Class){
     var xhr
     var formData = new FormData()
@@ -169,6 +168,7 @@ function change_page_class(page,Class){
     xhr.send(formData);
 }
 
+//删除
 function del(index,obj){
     var xhr
     var formData = new FormData()
@@ -202,6 +202,7 @@ function del(index,obj){
     xhr.send(formData);
 }
 
+//回复
 function reply(user){
     document.getElementById("send").value="@"+user+":"
 }
