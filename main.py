@@ -9,6 +9,7 @@ import json,uuid
 app=Flask(__name__)
 app.secret_key=os.urandom(16)
 
+#废弃掉的sqlalchemy语句
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:123456@localhost/mikufans'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 # db = SQLAlchemy(app)
@@ -87,9 +88,11 @@ app.secret_key=os.urandom(16)
 # db.session.add(user_num)
 # db.session.commit()
 
+#数据库连接
 db = MySQLdb.connect("localhost", "root", "123456", "bilibili", charset='utf8' )
 cursor = db.cursor()
 
+#日志
 fh=logging.FileHandler('log.log')
 fh.setLevel(logging.DEBUG)
 app.logger.setLevel(logging.DEBUG)
@@ -97,16 +100,17 @@ formatter=logging.Formatter('%(asctime)s - %(message)s')
 fh.setFormatter(formatter)
 app.logger.addHandler(fh)
 
-@app.route('/')
+@app.route('/')#首页
 def index():
     return render_template('index.html')
 
-root="index"
+
+root="index" #用来登录后的重定向的歪门邪道
 @app.route('/login',methods=['POST','GET'])
 def login():
     global root
     if request.method=='GET':
-        root=request.headers['Referer']
+        root=request.headers['Referer']  #用来登录后的重定向的歪门邪道
         return render_template('login.html')
     else:
         username=str(request.form['uname'])
@@ -152,7 +156,7 @@ def signin():
         password=request.form['password']
         uname=request.form['uname']
         sex=request.form['sex']
-        cursor.execute("select value from data where name='user_num'")
+        cursor.execute("select value from data where name='user_num'")#获取新用户uid
         uid=cursor.fetchone()
         # uid=data.query.filter_by(name='user_num').value
         uid=eval(uid[0])+1
@@ -215,7 +219,7 @@ def upload():
         av = cursor.fetchone()
         # av_num=data.query.filter_by(name='av_num')
         av = eval(av[0])+1
-#分区数据库与用户数据库
+        
         #更新movies表格
         movie=request.files['movie']
         cover=request.files['cover']
@@ -246,27 +250,32 @@ def logout():
 @app.route('/av<int:av>',methods=['POST','GET'])
 def movie(av):
     if request.method=='GET':
+        #获取视频数据传给模板
         cursor.execute("select * from movies where av_num={}".format(av))
         info=cursor.fetchone()
-        cursor.execute("select * from comments where av_num={} order by data desc".format(av))
+        cursor.execute("select * from comments where av_num={} order by likes desc,data desc".format(av))
         comments=cursor.fetchall()
         # movie=Movie.query.filter_by(av_num=av)
+        #换页数据
         pages=len(comments)
         if(pages%10==0):
             pages /= 10
         else:
             pages=int(pages/10)+1
         return render_template('movie.html',info=info,comments=comments,pages=int(pages))
-    else:
+    else:  #post用来发表评论
         if 'uid' not in session:
             flash("请先登录")
             return redirect(url_for('login'))
+        
+        #获取评论数据
         content=request.form['content']
         time = str(datetime.datetime.now())[0:19]
         cursor.execute("select value from data where name='comment_num';")
         rpid = cursor.fetchone()
         rpid = eval(rpid[0])
         rpid += 1
+        #数据库更新
         cursor.execute("insert into comments\
                        (rpid,av_num,user_name,content,likes,data)\
                        values('{}',{},'{}','{}',0,'{}')".format(rpid,av,session['uname'],content,time))
@@ -275,7 +284,7 @@ def movie(av):
         return redirect(url_for('movie',av=av))
 
 
-@app.route('/space/<int:uid>',methods=['POST','GET'])
+@app.route('/space/<int:uid>',methods=['POST','GET'])#用户个人空间,但只对用户自己开放
 def space(uid):
     if 'uid' not in session:
         flash("请先登录")
@@ -286,13 +295,13 @@ def space(uid):
         else:
             cursor.execute("select * from user where uid=" + str(session['uid']))
             info = cursor.fetchone()
-            cursor.execute("select * from movies where up_name='{}';".format(session['uname']))
+            cursor.execute("select * from movies where up_name='{}' order by likes desc,data desc".format(session['uname']))
             movies_create = cursor.fetchall()
             movies_collect=getCollection(uid)
-            cursor.execute("select * from comments where user_name='{}'".format(session['uname']))
+            cursor.execute("select * from comments where user_name='{}' order by likes desc,data desc".format(session['uname']))
             comments=cursor.fetchall()
             return render_template("space.html", info=info, movies_create=movies_create,movies_collect=movies_collect,comments=comments)
-    else:
+    else: #post用于用户数据修改
         if 'uid' not in session:
             flash("会话超时，请重新登录")
             return redirect("login")
@@ -315,7 +324,7 @@ def space(uid):
         return redirect("/space/"+str(session['uid']))
 
 
-@app.route('/v/<string:Class>')
+@app.route('/v/<string:Class>') #视频分区页
 def classes(Class):
     cursor.execute("select * from movies where classes='{}'".format(Class))
     movies=cursor.fetchall()
@@ -327,7 +336,7 @@ def classes(Class):
     return render_template("movie_list.html",movies=movies,pages=int(pages),Class=Class)
 
 
-@app.route('/danmaku/v3/',methods=['POST','GET'])
+@app.route('/danmaku/v3/',methods=['POST','GET']) #弹幕接口
 def danmaku():
     if(request.method=='GET'):
         id=request.args['id']
@@ -347,8 +356,11 @@ def danmaku():
         return dict
     else:
         data = json.loads(request.get_data())
+        
+        #获取dmid
         cursor.execute("select dmid from danmakus order by dmid desc")
         dmid=cursor.fetchone()[0]+1
+        
         author=data['author']
         color=data['color']
         type=data['type']
@@ -358,6 +370,7 @@ def danmaku():
         cursor.execute("insert into danmakus set dmid={},author='{}',color={},type={},id='{}',text='{}',time={}".format(dmid,author,color,type,id,text,time))
         db.commit()
 
+        #虽然没有的话应该也可以但还是照搬了
         msg = {
             "__v": 0,
             "_id": datetime.datetime.now().strftime("%Y%m%d%H%M%S") + uuid.uuid4().hex,
@@ -378,7 +391,7 @@ def danmaku():
         return resp
 
 
-@app.route('/update_like',methods=['POST'])
+@app.route('/update_like',methods=['POST'])#更新评论的点赞数据
 def update_like():
     rpid = request.form['rpid']
     if 'uid' not in session:
@@ -391,7 +404,7 @@ def update_like():
     return str(int(likes_now)+1)
 
 
-@app.route('/update_like_movie',methods=['POST'])
+@app.route('/update_like_movie',methods=['POST'])#更新视频的点赞数据
 def update_like_movie():
     if 'uid' not in session:
         return " 请先登录"
@@ -404,7 +417,7 @@ def update_like_movie():
     return str(int(likes_now)+1)
 
 
-@app.route('/update_collection',methods=['POST'])
+@app.route('/update_collection',methods=['POST'])#更新视频收藏数据
 def update_collection():
     if 'uid' not in session:
         return " 请先登录"
@@ -427,7 +440,7 @@ def update_collection():
     return str(int(likes_now)+1)
 
 
-@app.route('/update_play',methods=['POST'])
+@app.route('/update_play',methods=['POST']) #更新视频播放数据
 def update_play():
     av=request.form['av']
     cursor.execute("select play from movies where av_num={}".format(av))
@@ -438,7 +451,7 @@ def update_play():
     return str(int(likes_now)+1)
 
 
-@app.route('/update_danmaku',methods=['POST'])
+@app.route('/update_danmaku',methods=['POST']) #更新视频弹幕数量
 def update_danmaku():
     av=request.form['av']
     cursor.execute("select danmaku_num from movies where av_num={}".format(av))
@@ -449,7 +462,7 @@ def update_danmaku():
     return str(int(likes_now)+1)
 
 
-@app.route('/change_page',methods=['POST'])
+@app.route('/change_page',methods=['POST'])  #评论换页
 def change_page():
     page=request.form['page']
     page=int(page)
@@ -468,7 +481,7 @@ def change_page():
     content['num']=str(cnt)
     resp=""
     for i in range(0,cnt):
-        if 'uid' in session and session['uid']==1:
+        if 'uid' in session and session['uid']==1: #uid是1的为管理员orz
             resp=resp+"<div class=\"comment\" id=\"comment_"+content['rpid'][i]+"\">\
                             <div class=\"name\">user:"+content['user'][i]+"</div>\
                             <div class=\"content\">"+content['text'][i]+"</div>\
@@ -493,7 +506,7 @@ def change_page():
     return resp
 
 
-@app.route('/change_page_class',methods=['POST'])
+@app.route('/change_page_class',methods=['POST']) #视频分区页换页
 def change_page_class():
     page=request.form['page']
     page=int(page)
@@ -552,7 +565,7 @@ def change_page_class():
     return resp
 
 
-@app.route('/delete',methods=['POST'])
+@app.route('/delete',methods=['POST']) #删除
 def delete():
     obj=request.form['obj'];
     index=request.form['index']
@@ -567,7 +580,7 @@ def delete():
     return "1"
 
 
-def getCollection(uid):
+def getCollection(uid): #获取用户视频收藏
     cursor.execute("select collection_movies from user where uid={};".format(uid))
     collection = cursor.fetchone()
     collection = collection[0]
